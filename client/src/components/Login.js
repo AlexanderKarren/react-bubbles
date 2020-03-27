@@ -15,7 +15,7 @@ const Login = () => {
     event.preventDefault();
     axios.post("http://localhost:5000/api/login", user).then(response => {
       console.log(response);
-      localStorage.setItem("token", response.data.payload);
+      localStorage.setItem("token", JSON.stringify(response.data.payload));
       setLoading(false);
       push("/bubbles");
     })
