@@ -18,9 +18,10 @@ const ColorList = ({ colors, updateColors }) => {
 
   const saveEdit = e => {
     e.preventDefault();
-    // Make a put request to save your updated color
-    // think about where will you get the id from...
-    // where is is saved right now?
+    axiosWithAuth().put(`/api/colors/${colorToEdit.id}`, colorToEdit).then(response => {
+      console.log(response);
+      updateColors(colors.map(element => (colorToEdit.id === element.id) ? colorToEdit : element))
+    })
   };
 
   const deleteColor = color => {
@@ -72,6 +73,7 @@ const ColorList = ({ colors, updateColors }) => {
           <label>
             hex code:
             <input
+              type="color"
               onChange={e =>
                 setColorToEdit({
                   ...colorToEdit,
