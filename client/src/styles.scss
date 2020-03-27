@@ -20,6 +20,51 @@ body,
   }
 }
 
+.login {
+  width:100%;
+  display:flex;
+  justify-content:center;
+  > div {
+    > form {
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      button {
+        border: none;
+        background-color: black;
+        color: white;
+        border-radius:5px;
+        padding:10px;
+        font-size:inherit;
+        width:50%;
+        &:hover {
+          cursor:pointer;
+          background-color:darkslategray;
+        }
+      }
+      > div {
+        width:80%;
+        margin:10px;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        input {
+          background-color:#F5F5F5;
+          width:80%;
+          outline:none;
+          border:0;
+          border-radius:5px;
+          padding:10px;
+          font-size:inherit;
+        }
+        label {
+          width:15%;
+        }
+      }
+    }
+  }
+}
+
 .spacer {
   height: 100%;
 }
