@@ -9,10 +9,18 @@ const initialColor = {
 const ColorList = ({ colors, updateColors }) => {
   console.log(colors);
   const [editing, setEditing] = useState(false);
+  const [adding, setAdding] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
+  const [newColor, setNewColor] = useState({
+    color: "",
+    code: {
+      hex: ""
+    }
+  })
 
   const editColor = color => {
     setEditing(true);
+    setAdding(false);
     setColorToEdit(color);
   };
 
@@ -35,9 +43,22 @@ const ColorList = ({ colors, updateColors }) => {
     })
   };
 
+  const toggleAdding = () => {
+    setAdding(!adding);
+    setEditing(false);
+  }
+
+  const addColor = event => {
+    event.preventDefault();
+    axiosWithAuth().post("/api/colors", newColor).then(response => {
+      console.log(response);
+      updateColors([...colors, newColor])
+    })
+  }
+
   return (
     <div className="colors-wrap">
-      <p>colors</p>
+      <div className="color-heading"><p>colors&nbsp;<i onClick={toggleAdding} className="icon fas fa-plus"></i></p></div>
       <ul>
         {colors.map(color => (
           <li key={color.color} onClick={() => editColor(color)}>
@@ -89,8 +110,33 @@ const ColorList = ({ colors, updateColors }) => {
           </div>
         </form>
       )}
+      {adding && (
+      <form onSubmit={addColor}>
+        <legend>add color</legend>
+        <label htmlFor="color">
+          color name:
+          <input type="text" id="color" onChange={e => {
+            setNewColor({
+              ...newColor,
+              color: e.target.value
+            })
+          }}/>
+        </label>
+        <label htmlFor="color">
+          hex:
+          <input type="color" id="color" onChange={e => {
+            setNewColor({
+              ...newColor,
+              code : { hex: e.target.value }
+            })
+          }}/>
+        </label>
+        <div className="button-row">
+          <button type="submit">Add</button>
+        </div>
+      </form>
+      )}
       <div className="spacer" />
-      {/* stretch - build another form here to add a color */}
     </div>
   );
 };
